@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Выпадающее меню · 3 уровня</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, 'Segoe UI', sans-serif;
+            background: #f4f7fc;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .dropdown {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.1);
+            width: 280px;
+            padding: 0.5rem 0;
+        }
+
+        .menu {
+            list-style: none;
+        }
+
+        .menu li {
+            position: relative;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            cursor: pointer;
+            background: white;
+            transition: background 0.2s, padding-left 0.2s;
+            font-weight: 500;
+            color: #1a2c3e;
+            border-left: 3px solid transparent;
+        }
+
+        .menu-item:hover {
+            background: #eef2f7;
+            border-left-color: #3b82f6;
+        }
+
+        .menu-item.has-children::after {
+            content: "▶";
+            font-size: 12px;
+            transition: transform 0.2s;
+            color: #5f6c7a;
+        }
+
+        li.open > .menu-item.has-children::after {
+            transform: rotate(90deg);
+        }
+
+        .submenu {
+            display: none;
+            list-style: none;
+            background: #ffffff;
+            border-left: 2px solid #e2e8f0;
+            margin-left: 20px;
+        }
+
+        .submenu .submenu {
+            margin-left: 20px;
+            border-left-color: #cbd5e1;
+        }
+
+        li.open > .submenu {
+            display: block;
+        }
+
+        .menu-item:not(.has-children)::before {
+            content: "🔗 ";
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+            z-index: 1000;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="dropdown">
+    <ul class="menu">
+        <li>
+            <span class="menu-item has-children">📁 Каталог</span>
+            <ul class="submenu">
+                <li>
+                    <span class="menu-item has-children">🖥️ Электроника</span>
+                    <ul class="submenu">
+                        <li><span class="menu-item">📱 Смартфоны</span></li>
+                        <li><span class="menu-item">💻 Ноутбуки</span></li>
+                        <li><span class="menu-item">🎧 Наушники</span></li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="menu-item has-children">👕 Одежда</span>
+                    <ul class="submenu">
+                        <li><span class="menu-item">🧥 Куртки</span></li>
+                        <li><span class="menu-item">👟 Кроссовки</span></li>
+                        <li><span class="menu-item">🧢 Аксессуары</span></li>
+                    </ul>
+                </li>
+                <li><span class="menu-item">📚 Книги</span></li>
+                <li><span class="menu-item">🏠 Товары для дома</span></li>
+            </ul>
+        </li>
+        <li><span class="menu-item">⭐ Новинки</span></li>
+        <li>
+            <span class="menu-item has-children">ℹ️ О нас</span>
+            <ul class="submenu">
+                <li><span class="menu-item">📖 История</span></li>
+                <li>
+                    <span class="menu-item has-children">📍 Контакты</span>
+                    <ul class="submenu">
+                        <li><span class="menu-item">📞 Телефон</span></li>
+                        <li><span class="menu-item">✉️ Email</span></li>
+                        <li><span class="menu-item">🏢 Адрес</span></li>
+                    </ul>
+                </li>
+                <li><span class="menu-item">💼 Вакансии</span></li>
+            </ul>
+        </li>
+        <li><span class="menu-item">🎁 Акции</span></li>
+    </ul>
+</nav>
+
+<div id="toastMsg" class="toast"></div>
+
+<script>
+    (function() {
+        const dropdown = document.querySelector('.dropdown');
+        const toast = document.getElementById('toastMsg');
+
+        function showMessage(text) {
+            toast.textContent = text;
+            toast.style.opacity = '1';
+            setTimeout(() => {
+                toast.style.opacity = '0';
+            }, 1000);
+        }
+
+        dropdown.addEventListener('click', (e) => {
+            const item = e.target.closest('.menu-item');
+            if (!item) return;
+
+            const parentLi = item.closest('li');
+            if (!parentLi) return;
+
+            const submenu = parentLi.querySelector(':scope > .submenu');
+            if (submenu) {
+                parentLi.classList.toggle('open');
+                const isOpen = parentLi.classList.contains('open');
+                item.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            } else {
+                const text = item.innerText.replace(/[🔗📁🖥️👕📚🏠⭐ℹ️📍🎁]/g, '').trim();
+                showMessage(`🔗 Перейти: ${text}`);
+            }
+        });
+
+        document.querySelectorAll('.menu-item.has-children').forEach(item => {
+            item.setAttribute('aria-expanded', 'false');
+            const li = item.closest('li');
+            if (li && li.querySelector(':scope > .submenu')) {
+                li.classList.remove('open');
+            }
+        });
+    })();
+</script>
+</body>
+</html>
