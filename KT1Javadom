@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>КТ №1. Таблица с генерацией чисел</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    td {
+      border: 1px solid #000;
+      padding: 10px 15px;
+      text-align: center;
+      font-weight: bold;
+    }
+    .orange-bg {
+      background-color: orange;
+    }
+    button {
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="table-container"></div>
+
+  <button onclick="foo()">Добавить число</button>
+
+  <script>
+    const numbersArray = [];
+    for (let i = 0; i < 30; i++) {
+      const randomNumber = Math.floor(Math.random() * 100);
+      numbersArray.push(randomNumber);
+    }
+
+    const container = document.getElementById('table-container');
+    const table = document.createElement('table');
+
+    let index = 0;
+    
+    for (let r = 0; r < 5; r++) {
+      const row = document.createElement('tr');
+      
+      for (let c = 0; c < 6; c++) {
+        const cell = document.createElement('td');
+        const value = numbersArray[index];
+        
+        cell.textContent = value;
+        
+        if (value >= 50) {
+          cell.classList.add('orange-bg');
+        }
+        
+        row.appendChild(cell);
+        index++;
+      }
+      
+      table.appendChild(row);
+    }
+    
+    container.appendChild(table);
+
+
+    function foo() {
+      const newNumber = Math.floor(Math.random() * 100);
+      const rows = table.getElementsByTagName('tr');
+      let targetRow = null;
+      
+      for (let i = 0; i < rows.length; i++) {
+        if (rows[i].getElementsByTagName('td').length < 6) {
+          targetRow = rows[i];
+          break;
+        }
+      }
+      
+      if (!targetRow) {
+        targetRow = document.createElement('tr');
+        table.appendChild(targetRow);
+      }
+      
+      const newCell = document.createElement('td');
+      newCell.textContent = newNumber;
+      
+      if (newNumber >= 50) {
+        newCell.classList.add('orange-bg');
+      }
+      
+      targetRow.appendChild(newCell);
+    }
+  </script>
+</body>
+</html>
