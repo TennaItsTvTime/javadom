@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Банковская карта</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .content {
+            display: flex;
+            gap: 40px;
+        }
+
+        .form-side {
+            flex: 1;
+        }
+
+        .card-side {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .row .form-group {
+            flex: 1;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .credit-card {
+            width: 400px;
+            height: 240px;
+            background: linear-gradient(135deg, #434343, #000000);
+            border-radius: 15px;
+            padding: 25px;
+            color: white;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .card-logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            height: 30px;
+        }
+
+        .card-chip {
+            width: 50px;
+            height: 40px;
+            background: linear-gradient(135deg, #ffd700, #ffed4a);
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .card-number {
+            font-size: 24px;
+            letter-spacing: 3px;
+            margin-bottom: 30px;
+        }
+
+        .card-bottom {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .card-holder-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: #aaa;
+        }
+
+        .card-holder {
+            font-size: 16px;
+            text-transform: uppercase;
+        }
+
+        .expiry-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: #aaa;
+        }
+
+        .expiry-date {
+            font-size: 16px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: left;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Добавление банковской карты</h1>
+
+        <div class="content">
+            <div class="form-side">
+                <form id="cardForm">
+                    <div class="form-group">
+                        <label>Название банка:</label>
+                        <select id="bank">
+                            <option value="">Выберите банк</option>
+                            <option value="Сбербанк">Сбербанк</option>
+                            <option value="ВТБ">ВТБ</option>
+                            <option value="Альфа-Банк">Альфа-Банк</option>
+                            <option value="Тинькофф">Тинькофф</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Тип платежной системы:</label>
+                        <select id="payment">
+                            <option value="">Выберите систему</option>
+                            <option value="Visa">Visa</option>
+                            <option value="MasterCard">MasterCard</option>
+                            <option value="МИР">МИР</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Номер карты (16 цифр):</label>
+                        <input type="text" id="number" placeholder="0000 0000 0000 0000" maxlength="19">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Имя держателя карты:</label>
+                        <input type="text" id="holder" placeholder="IVAN IVANOV">
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                            <label>Месяц:</label>
+                            <select id="month">
+                                <option value="">ММ</option>
+                                <option value="01">01</option>
+                                <option value="02">02</option>
+                                <option value="03">03</option>
+                                <option value="04">04</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Год:</label>
+                            <select id="year">
+                                <option value="">ГГ</option>
+                                <option value="2025">2025</option>
+                                <option value="2026">2026</option>
+                                <option value="2027">2027</option>
+                                <option value="2028">2028</option>
+                                <option value="2029">2029</option>
+                                <option value="2030">2030</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit">Добавить карту</button>
+                </form>
+            </div>
+
+            <div class="card-side">
+                <div class="credit-card" id="cardPreview">
+                    <div class="card-logo" id="logo">ЛОГО</div>
+                    <div class="card-chip"></div>
+                    <div class="card-number" id="previewNumber">0000 0000 0000 0000</div>
+                    <div class="card-bottom">
+                        <div>
+                            <div class="card-holder-label">Card Holder</div>
+                            <div class="card-holder" id="previewHolder">IVAN IVANOV</div>
+                        </div>
+                        <div>
+                            <div class="expiry-label">Expires</div>
+                            <div class="expiry-date" id="previewExpiry">ММ/ГГ</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Банк</th>
+                    <th>Платежная система</th>
+                    <th>Номер карты</th>
+                    <th>Держатель</th>
+                    <th>Срок действия</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        var bankSelect = document.getElementById('bank');
+        var paymentSelect = document.getElementById('payment');
+        var numberInput = document.getElementById('number');
+        var holderInput = document.getElementById('holder');
+        var monthSelect = document.getElementById('month');
+        var yearSelect = document.getElementById('year');
+
+        var logoDiv = document.getElementById('logo');
+        var previewNumber = document.getElementById('previewNumber');
+        var previewHolder = document.getElementById('previewHolder');
+        var previewExpiry = document.getElementById('previewExpiry');
+
+        var logoImages = {
+            'Сбербанк': '🏦 Сбербанк',
+            'ВТБ': '🏦 ВТБ',
+            'Альфа-Банк': '🏦 Альфа-Банк',
+            'Тинькофф': '🏦 Тинькофф'
+        };
+
+        var paymentImages = {
+            'Visa': '💳 Visa',
+            'MasterCard': '💳 MasterCard',
+            'МИР': '💳 МИР'
+        };
+
+        bankSelect.addEventListener('change', function() {
+            updatePreview();
+        });
+
+        paymentSelect.addEventListener('change', function() {
+            updatePreview();
+        });
+
+        numberInput.addEventListener('input', function() {
+            var value = this.value.replace(/\D/g, '');
+            if (value.length > 16) {
+                value = value.slice(0, 16);
+            }
+            var formatted = '';
+            for (var i = 0; i < value.length; i++) {
+                if (i > 0 && i % 4 === 0) {
+                    formatted += ' ';
+                }
+                formatted += value[i];
+            }
+            this.value = formatted;
+            previewNumber.textContent = formatted || '0000 0000 0000 0000';
+        });
+
+        holderInput.addEventListener('input', function() {
+            var name = this.value.toUpperCase();
+            previewHolder.textContent = name || 'IVAN IVANOV';
+        });
+
+        monthSelect.addEventListener('change', function() {
+            updateExpiry();
+        });
+
+        yearSelect.addEventListener('change', function() {
+            updateExpiry();
+        });
+
+        function updatePreview() {
+            var bank = bankSelect.value;
+            var payment = paymentSelect.value;
+
+            if (bank && payment) {
+                logoDiv.textContent = logoImages[bank] + ' ' + paymentImages[payment];
+            } else if (bank) {
+                logoDiv.textContent = logoImages[bank];
+            } else if (payment) {
+                logoDiv.textContent = paymentImages[payment];
+            } else {
+                logoDiv.textContent = 'ЛОГО';
+            }
+        }
+
+        function updateExpiry() {
+            var month = monthSelect.value;
+            var year = yearSelect.value;
+
+            if (month && year) {
+                previewExpiry.textContent = month + '/' + year.slice(2);
+            } else {
+                previewExpiry.textContent = 'ММ/ГГ';
+            }
+        }
+
+        document.getElementById('cardForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            var bank = bankSelect.value;
+            var payment = paymentSelect.value;
+            var number = numberInput.value;
+            var holder = holderInput.value;
+            var month = monthSelect.value;
+            var year = yearSelect.value;
+
+            if (!bank || !payment || !number || !holder || !month || !year) {
+                alert('Заполните все поля!');
+                return;
+            }
+
+            if (number.replace(/\s/g, '').length !== 16) {
+                alert('Номер карты должен содержать 16 цифр!');
+                return;
+            }
+
+            var tableBody = document.getElementById('tableBody');
+            var row = document.createElement('tr');
+
+            var bankCell = document.createElement('td');
+            bankCell.textContent = bank;
+            row.appendChild(bankCell);
+
+            var paymentCell = document.createElement('td');
+            paymentCell.textContent = payment;
+            row.appendChild(paymentCell);
+
+            var numberCell = document.createElement('td');
+            numberCell.textContent = number;
+            row.appendChild(numberCell);
+
+            var holderCell = document.createElement('td');
+            holderCell.textContent = holder;
+            row.appendChild(holderCell);
+
+            var expiryCell = document.createElement('td');
+            expiryCell.textContent = month + '/' + year;
+            row.appendChild(expiryCell);
+
+            tableBody.appendChild(row);
+
+            bankSelect.value = '';
+            paymentSelect.value = '';
+            numberInput.value = '';
+            holderInput.value = '';
+            monthSelect.value = '';
+            yearSelect.value = '';
+
+            logoDiv.textContent = 'ЛОГО';
+            previewNumber.textContent = '0000 0000 0000 0000';
+            previewHolder.textContent = 'IVAN IVANOV';
+            previewExpiry.textContent = 'ММ/ГГ';
+        });
+    </script>
+
+</body>
+</html>
